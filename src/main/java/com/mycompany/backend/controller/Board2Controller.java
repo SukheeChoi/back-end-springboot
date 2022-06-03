@@ -14,21 +14,28 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mycompany.backend.dto.Board2;
 import com.mycompany.backend.dto.Image;
 import com.mycompany.backend.service.Board2Service;
+import com.mycompany.backend.service.ImageService;
 
 import lombok.extern.log4j.Log4j2;
 
 @RestController
 @Log4j2
 @RequestMapping("/board2")
-public class Board2Controler{
+public class Board2Controller{
   @Resource
   Board2Service board2Service;
+  @Resource
+  ImageService imageService;
 	
   @PostMapping("/")
   public Board2 create(@RequestBody Board2 board, @RequestBody Image[] imagesArray) {
     log.info("실행");
+    // 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일) 저장.
+    board2Service.writeBoard(board);
+    
+    // 최대 3개까지 사진 저장.
     for(int i=0; i<imagesArray.length; i++) {
-      Image image = new Image();        
+      Image image = new Image();
       MultipartFile mf = image.getImg();
       image.setImgoname(mf.getOriginalFilename());
       image.setImgoname(new Date().getTime() + "-" + mf.getOriginalFilename());
@@ -39,9 +46,10 @@ public class Board2Controler{
       } catch(Exception e) {
         log.error(e.getMessage());
       }
-      board2Service.appendImage(image);
+      imageService.appendImage(image);
       
     }
+    // 저장한 게시물정보 가져오기.(게시물+사진 각각 가져와서 전송해야 함.)
 //    Board2 dbBoard = board2Service.getBoard(board.getBno(), false);
     Board2 dbBoard = null;//////////
     return dbBoard;
