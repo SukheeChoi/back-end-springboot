@@ -25,6 +25,14 @@
 		(#{bno}, #{btitle}, SYSDATE, #{mid}, 0)
 	</insert>
 	
+	<update id="update" parameterType="board2">
+		UPDATE board SET
+			btitle=#{btitle}, 
+			bmemo=#{bmemo},
+			bdate=sysdate
+		WHERE bno=#{bno}
+	</update>
+	
 	<delete id="deleteByBno" parameterType="int">
 		DELETE FROM board WHERE bno=#{bno}
 	</delete>

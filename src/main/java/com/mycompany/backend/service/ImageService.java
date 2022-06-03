@@ -24,6 +24,11 @@ public class ImageService {
 		imageDao.insert(image);
 		//
   }
+
+  public void deleteImageByBno(int bno) {
+    log.info("실행");
+    imageDao.deletebyBno(bno);
+  }
 }
 
 

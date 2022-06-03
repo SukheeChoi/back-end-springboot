@@ -27,7 +27,7 @@
 	</select>
 	
 	<insert id="insert" parameterType="board">
-		<selectKey order="BEFORE" resultType="int" keyProperty="bno">
+		<selectKey order="BEFORE" resultType="ㅌint" keyProperty="bno">
 			SELECT SEQ_BNO.nextval FROM dual
 		</selectKey>
 		<if test="battachoname == null">
