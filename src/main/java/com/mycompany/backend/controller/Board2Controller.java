@@ -71,7 +71,6 @@ public class Board2Controller {
 			}
 			imageService.appendImage(image);
 		}
-		// 저장한 게시물정보 가져오기.(게시물+사진 각각 가져와서 전송해야 함.)
 //    Board2 dbBoard = board2Service.getBoard(board.getBno(), false);
 		Board2 dbBoard = null;//////////
 		return board;
