@@ -49,9 +49,14 @@ public class Board2Service {
 //		board2Dao.deleteByBno(bno);
 //	}
 	
-	public void writeBoard(Board2 board) {
+	public int selectBno() {
 	  log.info("실행");
-	  
+	  return board2Dao.selectCurrentBno();
+	}
+	
+	public int writeBoard(Board2 board) {
+	  log.info("실행");
+	  return board2Dao.insert(board);
 	}
 
   public void updateBoard(Board2 board) {
