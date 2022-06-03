@@ -21,7 +21,7 @@
 			SELECT SEQ_INO.nextval FROM dual
 		</selectKey>
 		INSERT INTO images
-		(ino, bno, imagoname, imgsname, imgtype)
+		(ino, bno, imgoname, imgsname, imgtype)
 		VALUES
 		(#{ino}, #{bno}, #{imgoname}, #{imgsname}, #{imgtype})
 	</insert>

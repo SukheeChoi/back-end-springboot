@@ -25,10 +25,15 @@ public class ImageService {
 	public Image getImage(int ino) {
 		return imageDao.selectByIno(ino);
 	}
-	
+
 	public void appendImage(Image image) {
 		log.info("실행");
 		imageDao.insert(image);
+	}
+
+	public void deleteImageByBno(int bno) {
+		log.info("실행");
+		imageDao.deletebyBno(bno);
 	}
 
 }

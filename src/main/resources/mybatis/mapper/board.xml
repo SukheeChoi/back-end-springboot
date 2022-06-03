@@ -72,5 +72,3 @@
 		UPDATE board SET bhitcount=bhitcount+1 WHERE bno=#{bno}	
 	</update>	
 </mapper>
-
-

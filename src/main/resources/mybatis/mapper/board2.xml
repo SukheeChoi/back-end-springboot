@@ -2,17 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mycompany.backend.dao.Board2Dao">
-	<select id="selectByPage" parameterType="pager" resultType="board">
+	<select id="selectByPage" parameterType="pager" resultType="board2">
 		SELECT rnum, bno, btitle, bdate, mid, bhitcount
 		FROM (
 		  SELECT ROWNUM as rnum, bno, btitle, bdate, mid, bhitcount
 		  FROM (
 		    SELECT bno, btitle, bdate, mid, bhitcount 
-		    FROM board
+		    FROM board2
 		    ORDER BY bno DESC
 		  )
 		  WHERE rownum &lt;= #{endRowNo}  
 		)
 		WHERE rnum &gt;= #{startRowNo}
 	</select>
+	
+	<insert id="insert" parameterType="board2">
+		<selectKey order="BEFORE" resultType="int" keyProperty="bno">
+			SELECT SEQ_BNO.nextval FROM dual
+		</selectKey>
+		INSERT INTO board2 
+		(bno, btitle, bdate, mid, bhitcount)
+		VALUES
+		(#{bno}, #{btitle}, SYSDATE, #{mid}, 0)
+	</insert>
+	
+	<update id="update" parameterType="board2">
+		UPDATE board2 SET
+			btitle=#{btitle}, 
+			bmemo=#{bmemo},
+			bdate=sysdate
+		WHERE bno=#{bno}
+	</update>
+	
+	<delete id="deleteByBno" parameterType="int">
+		DELETE FROM board2 WHERE bno=#{bno}
+	</delete>
 </mapper>

@@ -54,6 +54,11 @@ public class Board2Service {
 	  
 	}
 
+  public void updateBoard(Board2 board) {
+    log.info("실행");
+    board2Dao.update(board);
+  }
+
 }
 
 
