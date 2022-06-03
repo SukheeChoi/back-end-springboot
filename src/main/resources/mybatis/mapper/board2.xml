@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mapper namespace="com.mycompany.backend.dao.Board2Dao">
+	<select id="selectByPage" parameterType="pager" resultType="board">
+		SELECT rnum, bno, btitle, bdate, mid, bhitcount
+		FROM (
+		  SELECT ROWNUM as rnum, bno, btitle, bdate, mid, bhitcount
+		  FROM (
+		    SELECT bno, btitle, bdate, mid, bhitcount 
+		    FROM board
+		    ORDER BY bno DESC
+		  )
+		  WHERE rownum &lt;= #{endRowNo}  
+		)
+		WHERE rnum &gt;= #{startRowNo}
+	</select>
+</mapper>
