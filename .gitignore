@@ -1,2 +1,7 @@
 HELP.md
 target/
+.metadata
+.classpath
+.DS_Store
+.project
+.factorypath
