@@ -31,9 +31,9 @@ public class Board2Controller{
   ImageService imageService;
 	
   @PostMapping("/")
-  public Board2 create(Board2 board, MultipartHttpServletRequest mtfRequest) {
+//  public Board2 create(Board2 board, MultipartHttpServletRequest mtfRequest) {
 //    public Board2 create(Board2 board) {
-//    public Board2 create(Board2 board, MultipartFile[] imagesArray) {
+    public Board2 create(Board2 board, MultipartFile[] imagesArray) {
     log.info("실행");
 //    if(imagesArray != null) {
 //      log.info("imagesArray에 값이 넘어왔다~~~~");
@@ -44,31 +44,14 @@ public class Board2Controller{
     log.info("bno : " + bno);
     
     //
-    List<MultipartFile> imagesArray = mtfRequest.getFiles("File");
-    log.info("imagesArray.size() : " + imagesArray.size());
-    for(MultipartFile mf : imagesArray) {
-      Image image = new Image();
-      image.setImgoname(mf.getOriginalFilename());
-      image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
-      image.setImgtype(mf.getContentType());
-      image.setBno(bno);
-      try {
-        File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
-        mf.transferTo(file);
-      } catch(Exception e) {
-        log.error(e.getMessage());
-      }
-      imageService.appendImage(image);
-    }
-    
-    // 최대 3개까지 사진 저장.
-//    for(int i=0; i<imagesArray.length; i++) {
-//      MultipartFile mf = imagesArray[i];
+//    List<MultipartFile> imagesArray = mtfRequest.getFiles("File");
+//    log.info("imagesArray.size() : " + imagesArray.size());
+//    for(MultipartFile mf : imagesArray) {
 //      Image image = new Image();
-//      image.setBno(bno);
 //      image.setImgoname(mf.getOriginalFilename());
 //      image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
 //      image.setImgtype(mf.getContentType());
+//      image.setBno(bno);
 //      try {
 //        File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
 //        mf.transferTo(file);
@@ -76,8 +59,25 @@ public class Board2Controller{
 //        log.error(e.getMessage());
 //      }
 //      imageService.appendImage(image);
-//      
 //    }
+    
+    // 최대 3개까지 사진 저장.
+    for(int i=0; i<imagesArray.length; i++) {
+      MultipartFile mf = imagesArray[i];
+      Image image = new Image();
+      image.setBno(bno);
+      image.setImgoname(mf.getOriginalFilename());
+      image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
+      image.setImgtype(mf.getContentType());
+      try {
+        File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+        mf.transferTo(file);
+      } catch(Exception e) {
+        log.error(e.getMessage());
+      }
+      imageService.appendImage(image);
+      
+    }
     // 저장한 게시물정보 가져오기.(게시물+사진 각각 가져와서 전송해야 함.)
 //    Board2 dbBoard = board2Service.getBoard(board.getBno(), false);
     Board2 dbBoard = null;//////////
