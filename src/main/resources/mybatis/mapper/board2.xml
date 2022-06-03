@@ -35,7 +35,7 @@
 	
 	<update id="update" parameterType="board2">
 		UPDATE board2 SET
-			btitle=#{btitle}, 
+			btitle=#{btitle},
 			bmemo=#{bmemo},
 			bdate=sysdate
 		WHERE bno=#{bno}

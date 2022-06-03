@@ -11,7 +11,7 @@ public interface ImageDao {
 	public List<Image> selectByBno(int bno);
 	public Image selectByIno(int ino);
 	public int insert(Image image);
-	public int deletebyBno(int bno);
-	public int deletebyIno(int ino);
+	public int deleteByBno(int bno);
+	public int deleteByIno(int ino);
 	
 }

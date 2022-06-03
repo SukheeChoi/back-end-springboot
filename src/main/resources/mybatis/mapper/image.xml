@@ -27,12 +27,12 @@
 	</insert>
 
 	<delete id="deleteByBno" parameterType="int">
-		DELETE FROM images WHERE
-		bno=#{bno}
+		DELETE FROM images
+		WHERE bno=#{bno}
 	</delete>
 
 	<delete id="deleteByIno" parameterType="int">
-		DELETE FROM images WHERE
-		ino=#{ino}
+		DELETE FROM images
+		WHERE ino=#{ino}
 	</delete>
 </mapper> 

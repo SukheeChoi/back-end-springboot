@@ -44,10 +44,6 @@ public class Board2Service {
 //		board2Dao.update(board);
 //	}
 //	
-//	public void removeBoard(int bno) {
-//		log.info("실행");
-//		board2Dao.deleteByBno(bno);
-//	}
 	
 	public int selectBno() {
 	  log.info("실행");
@@ -64,6 +60,13 @@ public class Board2Service {
     board2Dao.update(board);
   }
 
+  public int removeBoard(int bno) {
+    log.info("실행");
+    int result = board2Dao.deleteByBno(bno);
+    return result;
+  }
+
+  
 }
 
 
