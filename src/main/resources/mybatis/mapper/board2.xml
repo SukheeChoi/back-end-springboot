@@ -2,56 +2,65 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mycompany.backend.dao.Board2Dao">
-	<select id="selectByPage" parameterType="pager" resultType="board2">
-		SELECT rnum, bno, btitle, bdate, mid, bhitcount
+	<select id="selectByPage" parameterType="pager"
+		resultType="board2">
+		SELECT rnum, bno, btitle, bdate
 		FROM (
-		  SELECT ROWNUM as rnum, bno, btitle, bdate, mid, bhitcount
-		  FROM (
-		    SELECT bno, btitle, bdate, mid, bhitcount 
-		    FROM board2
-		    ORDER BY bno DESC
-		  )
-		  WHERE rownum &lt;= #{endRowNo}  
+			SELECT ROWNUM as rnum, bno, btitle, bdate
+			FROM (
+				SELECT bno, btitle, bdate, mid, bhitcount
+				FROM board2
+				ORDER BY bno DESC
+		)
+		WHERE rownum &lt;= #{endRowNo}
 		)
 		WHERE rnum &gt;= #{startRowNo}
 	</select>
 	
-	 <select id="selectByBno" resultType="board2" parameterType="int">
-    SELECT bno, btitle, bdate, mid, bhitcount
-    FROM board2
-    WHERE bno=#{bno}
-  </select>
-  
-	<select id="selectCurrentBno" resultType="int">
-		SELECT SEQ_BNO.currval FROM dual
+	<select id="count" resultType="int">
+		SELECT count(*) FROM board
 	</select>
-	
+
+	<select id="selectByBno" resultType="board2" parameterType="int">
+		SELECT bno, btitle, bdate, mid, bhitcount
+		FROM board2
+		WHERE bno=#{bno}
+	</select>
+
+	<select id="selectCurrentBno" resultType="int">
+		SELECT SEQ_BNO.currval
+		FROM dual
+	</select>
+
 	<insert id="insert" parameterType="board2">
 		<selectKey order="BEFORE" resultType="int" keyProperty="bno">
 			SELECT SEQ_BNO.nextval FROM dual
 		</selectKey>
-		INSERT INTO board2 
+		INSERT INTO board2
 		(bno, btitle, bmemo, bdate, mid, bhitcount)
 		VALUES
-		(#{bno}, #{btitle}, #{bmemo}, SYSDATE, #{mid}, 0)
-<!-- 		<selectKey order="AFTER" resultType="int" keyProperty="bno">
-			SELECT SEQ_BNO.currval FROM dual
-		</selectKey> -->
+		(#{bno}, #{btitle},
+		#{bmemo}, SYSDATE, #{mid}, 0)
+		<!-- <selectKey order="AFTER" resultType="int" keyProperty="bno"> SELECT 
+			SEQ_BNO.currval FROM dual </selectKey> -->
 	</insert>
-	
+
 	<update id="update" parameterType="board2">
 		UPDATE board2 SET
-			btitle=#{btitle},
-			bmemo=#{bmemo},
-			bdate=sysdate
+		btitle=#{btitle},
+		bmemo=#{bmemo},
+		bdate=sysdate
 		WHERE bno=#{bno}
 	</update>
-	
+
 	<delete id="deleteByBno" parameterType="int">
-		DELETE FROM board2 WHERE bno=#{bno}
+		DELETE FROM board2 WHERE
+		bno=#{bno}
 	</delete>
+
+	<update id="updateBhitcount" parameterType="int">
+		UPDATE board2 SET bhitcount=bhitcount+1 WHERE bno=#{bno}
+	</update>
 	
-	 <update id="updateBhitcount" parameterType="int"> 
-    UPDATE board2 SET bhitcount=bhitcount+1 WHERE bno=#{bno} 
-  </update> 
+
 </mapper>
