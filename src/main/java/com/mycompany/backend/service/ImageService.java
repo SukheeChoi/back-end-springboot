@@ -22,7 +22,7 @@ public class ImageService {
   public void appendImage(Image image) {
 		log.info("실행");
 		imageDao.insert(image);
-    
+		//
   }
 }
 
