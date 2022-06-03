@@ -27,7 +27,7 @@
 	</select>
 	
 	<insert id="insert" parameterType="board">
-		<selectKey order="BEFORE" resultType="ㅌint" keyProperty="bno">
+		<selectKey order="BEFORE" resultType="int" keyProperty="bno">
 			SELECT SEQ_BNO.nextval FROM dual
 		</selectKey>
 		<if test="battachoname == null">
@@ -72,5 +72,3 @@
 		UPDATE board SET bhitcount=bhitcount+1 WHERE bno=#{bno}	
 	</update>	
 </mapper>
-
-
