@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // 요청 경로 권한 설정
     http.authorizeRequests()
         .antMatchers("/board/**").authenticated()
+//        .antMatchers("/board2/**").authenticated()
         .antMatchers("/**").permitAll();
     // CORS 설정(다른 도메인의 JavaScript로 접근할 수 있도록 허용)
    http.cors();

@@ -49,8 +49,12 @@ public class Board2Controller {
 
 	@PostMapping("/")
 //public Board2 create(Board2 board, MultipartHttpServletRequest mtfRequest) {
-	public Board2 create(Board2 board, MultipartFile[] imagesArray) {
+//public Board2 create(Board2 board, MultipartFile[] imagesArray) {
+  public Board2 create(Board2 board) {
 		log.info("실행");
+		log.info("~~~~~~~~~~~~~~~~~~board : " + board);
+		MultipartFile[] imagesArray = board.getImagesArray();
+		log.info("~~~~~~~~~~~~~~~~~~imagesArray : " + imagesArray);
 // 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
 		board2Service.writeBoard(board);
 		int bno = board2Service.selectBno();
