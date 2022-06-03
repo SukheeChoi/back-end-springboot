@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.mycompany.backend.dao.Board2Dao;
 import com.mycompany.backend.dto.Board;
 import com.mycompany.backend.dto.Board2;
+import com.mycompany.backend.dto.Images;
 import com.mycompany.backend.dto.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,12 @@ public class Board2Service {
 //		log.info("실행");
 //		board2Dao.deleteByBno(bno);
 //	}
+
+  public void appendImage(Images image) {
+		log.info("실행");
+//		board2Dao.
+    
+  }
 }
 
 
