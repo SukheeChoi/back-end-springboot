@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -37,6 +38,11 @@ public class Board2Controller {
 	Board2Service board2Service;
 	@Resource
 	ImageService imageService;
+	
+	@GetMapping("/{bno}")
+	public Board2 read(@PathVariable int bno, @RequestParam(defaultValue = "false") boolean hit) {
+		return board2Service.getBoard(bno, hit);
+	}
 	
 	@PostMapping("/")
 	public Board2 create(Board2 board, MultipartFile[] imagesArray) {

@@ -48,7 +48,14 @@ public class Board2Service {
 //		log.info("실행");
 //		board2Dao.deleteByBno(bno);
 //	}
-
+	
+	public Board2 getBoard(int bno, boolean hit) {
+		if(hit) {
+			board2Dao.updateBhitcount(bno);
+		}
+		return board2Dao.selectByBno(bno);
+	}
+	
 	public int writeBoard(Board2 board) {
 		log.info("실행");
 		return board2Dao.insert(board);

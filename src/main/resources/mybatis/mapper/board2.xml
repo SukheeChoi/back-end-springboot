@@ -16,6 +16,12 @@
 		WHERE rnum &gt;= #{startRowNo}
 	</select>
 	
+	 <select id="selectByBno" resultType="board2" parameterType="int">
+    SELECT bno, btitle, bdate, mid, bhitcount
+    FROM board2
+    WHERE bno=#{bno}
+  </select>
+  
 	<select id="selectCurrentBno" resultType="int">
 		SELECT SEQ_BNO.currval FROM dual
 	</select>
@@ -44,4 +50,8 @@
 	<delete id="deleteByBno" parameterType="int">
 		DELETE FROM board2 WHERE bno=#{bno}
 	</delete>
+	
+	 <update id="updateBhitcount" parameterType="int"> 
+    UPDATE board2 SET bhitcount=bhitcount+1 WHERE bno=#{bno} 
+  </update> 
 </mapper>

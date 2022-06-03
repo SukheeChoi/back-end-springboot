@@ -7,10 +7,10 @@ import com.mycompany.backend.dto.Board2;
 public interface Board2Dao {
 //  public List<Board2> selectByPage(Pager pager);
 //  public int count();
-//  public Board selectByBno(int bno);
+  public Board2 selectByBno(int bno);
   public int selectCurrentBno();
   public int insert(Board2 board);
   public void update(Board2 board);
   public int deleteByBno(int bno);
-//  public int updateBhitcount(int bno);
+  public int updateBhitcount(int bno);
 }
