@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.backend.dao.Board2Dao;
-import com.mycompany.backend.dto.Image;
+import com.mycompany.backend.dto.Board2;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,12 +48,12 @@ public class Board2Service {
 //		log.info("실행");
 //		board2Dao.deleteByBno(bno);
 //	}
+	
+	public void writeBoard(Board2 board) {
+	  log.info("실행");
+	  
+	}
 
-  public void appendImage(Image image) {
-		log.info("실행");
-//		board2Dao.
-    
-  }
 }
 
 
