@@ -18,7 +18,7 @@
 
 	<insert id="insert" parameterType="image">
 		<selectKey order="BEFORE" resultType="int" keyProperty="ino">
-			SELECT SEQ_IMG.nextval FROM dual
+			SELECT SEQ_INO.nextval FROM dual
 		</selectKey>
 		INSERT INTO images
 		(ino, bno, imagoname, imgsname, imgtype)
