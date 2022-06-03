@@ -29,15 +29,18 @@ public class Board2Controller{
   ImageService imageService;
 	
   @PostMapping("/")
-  public Board2 create(@RequestBody Board2 board, @RequestBody Image[] imagesArray) {
+  public Board2 create(@RequestBody Board2 board, MultipartFile[] imagesArray) {
     log.info("실행");
+    if(imagesArray != null) {
+      log.info("imagesArray에 값이 넘어왔다~~~~");
+    }
     // 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
     board2Service.writeBoard(board);
     
     // 최대 3개까지 사진 저장.
     for(int i=0; i<imagesArray.length; i++) {
       Image image = new Image();
-      MultipartFile mf = image.getImg();
+      MultipartFile mf = imagesArray[i];
       image.setImgoname(mf.getOriginalFilename());
       image.setImgoname(new Date().getTime() + "-" + mf.getOriginalFilename());
       image.setImgtype(mf.getContentType());
@@ -57,7 +60,7 @@ public class Board2Controller{
   }
   
   @PutMapping("/")
-  public Board2 update(@RequestBody Board2 board, @RequestBody Image[] imagesArray) {
+  public Board2 update(@RequestBody Board2 board, @RequestBody MultipartFile[] imagesArray) {
     log.info("실행");
 
     // 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
