@@ -2,7 +2,6 @@ package com.mycompany.backend.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,15 +18,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mycompany.backend.dto.Board2;
 import com.mycompany.backend.dto.Image;
+import com.mycompany.backend.dto.Pager;
 import com.mycompany.backend.service.Board2Service;
 import com.mycompany.backend.service.ImageService;
 
@@ -45,6 +43,18 @@ public class Board2Controller {
 	@GetMapping("/{bno}")
 	public Board2 read(@PathVariable int bno, @RequestParam(defaultValue = "false") boolean hit) {
 		return board2Service.getBoard(bno, hit);
+	}
+	
+	@GetMapping("/list")
+	public Map<String, Object> list(@RequestParam(defaultValue="1") int pageNo) {
+		log.info("실행");
+		int totalRows = board2Service.getTotalBoardNum();
+		Pager pager = new Pager(12, 10, totalRows, pageNo);
+		List<Board2> list = board2Service.getBoards(pager);
+		Map<String, Object> map = new HashMap<>();
+		map.put("boards", list);
+		map.put("pager", pager);
+		return map;
 	}
 
 	@PostMapping("/")
