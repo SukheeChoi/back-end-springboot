@@ -25,9 +25,9 @@ public class ImageService {
 		//
   }
 
-  public void deleteImageByBno(int bno) {
+  public int deleteImageByBno(int bno) {
     log.info("실행");
-    imageDao.deleteByBno(bno);
+    return imageDao.deleteByBno(bno);
   }
 }
 

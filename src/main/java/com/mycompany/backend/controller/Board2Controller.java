@@ -114,10 +114,17 @@ public class Board2Controller{
   
   @DeleteMapping("/{bno}")
   public Map<String, String> delete(@PathVariable int bno) {
-    int result = board2Service.removeBoard(bno);
+    // bno에 해당하는 사진 모두 삭제.
+    int imgResult = imageService.deleteImageByBno(bno);
+    log.info("~~~~~~~~~~~~~~~~imgResult : " + imgResult);
+    
+    // bno에 해당하는 게시글의 내용 삭제.
+    int boardResult = board2Service.removeBoard(bno);
+    log.info("~~~~~~~~~~~~~~~~boardResult : " + boardResult);
+    
     // 삭제 결과 응답하기.
     Map<String, String> map = new HashMap<>();
-    if(result == 1) {
+    if(boardResult + imgResult == 2) {
       map.put("result", "success");      
     } else {
       map.put("result", "fail");      
