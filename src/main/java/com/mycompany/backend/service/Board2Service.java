@@ -53,6 +53,11 @@ public class Board2Service {
 		log.info("실행");
 		return board2Dao.insert(board);
 	}
+	
+	public int selectBno() {
+	  log.info("실행");
+	  return board2Dao.selectCurrentBno();
+	}
 
 	public void updateBoard(Board2 board) {
 		log.info("실행");
