@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.backend.dto.Board2;
-import com.mycompany.backend.dto.Images;
+import com.mycompany.backend.dto.Image;
 import com.mycompany.backend.service.Board2Service;
 
 import lombok.extern.log4j.Log4j2;
@@ -25,10 +25,10 @@ public class Board2Controler{
   Board2Service board2Service;
 	
   @PostMapping("/")
-  public Board2 create(@RequestBody Board2 board, @RequestBody Images[] imagesArray) {
+  public Board2 create(@RequestBody Board2 board, @RequestBody Image[] imagesArray) {
     log.info("실행");
     for(int i=0; i<imagesArray.length; i++) {
-      Images image = new Images();        
+      Image image = new Image();        
       MultipartFile mf = image.getImg();
       image.setImgoname(mf.getOriginalFilename());
       image.setImgoname(new Date().getTime() + "-" + mf.getOriginalFilename());
