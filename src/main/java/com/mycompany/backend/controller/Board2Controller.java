@@ -30,7 +30,7 @@ public class Board2Controller{
   @PostMapping("/")
   public Board2 create(@RequestBody Board2 board, @RequestBody Image[] imagesArray) {
     log.info("실행");
-    // 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일) 저장.
+    // 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
     board2Service.writeBoard(board);
     
     // 최대 3개까지 사진 저장.

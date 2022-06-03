@@ -14,4 +14,14 @@
 		)
 		WHERE rnum &gt;= #{startRowNo}
 	</select>
+	
+	<insert id="insert" parameterType="board2">
+		<selectKey order="BEFORE" resultType="int" keyProperty="bno">
+			SELECT SEQ_BNO.nextval FROM dual
+		</selectKey>
+		INSERT INTO board 
+		(bno, btitle, bdate, mid, bhitcount)
+		VALUES
+		(#{bno}, #{btitle}, SYSDATE, #{mid}, 0)
+	</insert>	
 </mapper>
