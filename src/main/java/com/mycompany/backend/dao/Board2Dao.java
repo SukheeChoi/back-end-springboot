@@ -8,7 +8,7 @@ import com.mycompany.backend.dto.Board;
 import com.mycompany.backend.dto.Board2;
 import com.mycompany.backend.dto.Pager;
 @Mapper
-public class Board2Dao {
+public interface Board2Dao {
 //  public List<Board2> selectByPage(Pager pager);
 //  public int count();
 //  public Board selectByBno(int bno);
