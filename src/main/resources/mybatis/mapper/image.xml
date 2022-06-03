@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycompany.backend.dao.ImageDao">
+	<select id="selectByBno" parameterType="int" resultType="Image">
+		SELECT
+		ino, bno, imgoname, imgsname, imgtype
+		FROM images
+		WHERE bno=#{bno}
+	</select>
+
+	<select id="selectByIno" parameterType="int" resultType="Image">
+		SELECT
+		ino, bno, imgoname, imgsname, imgtype
+		FROM images
+		WHERE ino=#{ino}
+	</select>
+
+	<insert id="insert" parameterType="image">
+		<selectKey order="BEFORE" resultType="int" keyProperty="ino">
+			SELECT SEQ_IMG.nextval FROM dual
+		</selectKey>
+		INSERT INTO images
+		(ino, bno, imagoname, imgsname, imgtype)
+		VALUES
+		(#{ino}, #{bno}, #{imgoname}, #{imgsname}, #{imgtype})
+	</insert>
+
+	<delete id="deleteByBno" parameterType="int">
+		DELETE FROM images WHERE
+		bno=#{bno}
+	</delete>
+
+	<delete id="deleteByIno" parameterType="int">
+		DELETE FROM images WHERE
+		ino=#{ino}
+	</delete>
+</mapper> 

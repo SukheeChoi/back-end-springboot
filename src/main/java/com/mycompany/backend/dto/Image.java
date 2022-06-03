@@ -3,7 +3,7 @@ package com.mycompany.backend.dto;
 import lombok.Data;
 
 @Data
-public class Images {
+public class Image {
 	private int ino;
 	private int bno;
 	private String imgoname;
