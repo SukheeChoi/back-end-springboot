@@ -23,5 +23,9 @@
 		(bno, btitle, bdate, mid, bhitcount)
 		VALUES
 		(#{bno}, #{btitle}, SYSDATE, #{mid}, 0)
-	</insert>	
+	</insert>
+	
+	<delete id="deleteByBno" parameterType="int">
+		DELETE FROM board WHERE bno=#{bno}
+	</delete>
 </mapper>
