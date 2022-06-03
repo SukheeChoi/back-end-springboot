@@ -1,16 +1,11 @@
 package com.mycompany.backend.service;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.mycompany.backend.dao.Board2Dao;
-import com.mycompany.backend.dto.Board;
-import com.mycompany.backend.dto.Board2;
-import com.mycompany.backend.dto.Images;
-import com.mycompany.backend.dto.Pager;
+import com.mycompany.backend.dto.Image;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +49,7 @@ public class Board2Service {
 //		board2Dao.deleteByBno(bno);
 //	}
 
-  public void appendImage(Images image) {
+  public void appendImage(Image image) {
 		log.info("실행");
 //		board2Dao.
     

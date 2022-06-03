@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
 @Data
-public class Images {
+public class Image {
 	private int ino;
 	private int bno;
 	private String imgoname;
