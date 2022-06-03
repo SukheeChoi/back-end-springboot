@@ -135,16 +135,16 @@ public class Jwt {
     return accessToken;
   }
   
-  public static void main(String[] args) {
-    String accessToken = createAccessToken("user", "ROLE_USER");
-    log.info("accessToken: " + accessToken);
-    System.out.println(validateToken(accessToken));
-    
-    Date expiration = getExpiration(accessToken);
-    System.out.println("expiration: " + expiration);
-    
-    Map<String, String> userInfo = getUserInfo(accessToken);
-    System.out.println("userInfo: " + userInfo);
-  }
+	/*
+	 * public static void main(String[] args) { String accessToken =
+	 * createAccessToken("user", "ROLE_USER"); log.info("accessToken: " +
+	 * accessToken); System.out.println(validateToken(accessToken));
+	 * 
+	 * Date expiration = getExpiration(accessToken);
+	 * System.out.println("expiration: " + expiration);
+	 * 
+	 * Map<String, String> userInfo = getUserInfo(accessToken);
+	 * System.out.println("userInfo: " + userInfo); }
+	 */
   
 }
