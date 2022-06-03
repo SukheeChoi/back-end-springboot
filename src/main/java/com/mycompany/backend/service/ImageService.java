@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.backend.dao.Board2Dao;
 import com.mycompany.backend.dao.ImageDao;
+import com.mycompany.backend.dto.Board;
 import com.mycompany.backend.dto.Board2;
 import com.mycompany.backend.dto.Image;
 
@@ -20,7 +21,7 @@ public class ImageService {
 
   public void appendImage(Image image) {
 		log.info("실행");
-//		imageDao.
+		imageDao.insert(image);
     
   }
 }
