@@ -2,13 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mycompany.backend.dao.Board2Dao">
-	<select id="selectByPage" parameterType="pager"
-		resultType="board2">
+	<select id="selectByPage" parameterType="pager" resultType="board2">
 		SELECT rnum, bno, btitle, bdate
 		FROM (
 			SELECT ROWNUM as rnum, bno, btitle, bdate
 			FROM (
-				SELECT bno, btitle, bdate, mid, bhitcount
+				SELECT bno, btitle, bdate
 				FROM board2
 				ORDER BY bno DESC
 		)
@@ -18,7 +17,7 @@
 	</select>
 	
 	<select id="count" resultType="int">
-		SELECT count(*) FROM board
+		SELECT count(*) FROM board2
 	</select>
 
 	<select id="selectByBno" resultType="board2" parameterType="int">

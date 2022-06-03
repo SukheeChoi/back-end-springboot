@@ -49,7 +49,7 @@ public class Board2Controller {
 	public Map<String, Object> list(@RequestParam(defaultValue="1") int pageNo) {
 		log.info("실행");
 		int totalRows = board2Service.getTotalBoardNum();
-		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		Pager pager = new Pager(12, 10, totalRows, pageNo);
 		List<Board2> list = board2Service.getBoards(pager);
 		Map<String, Object> map = new HashMap<>();
 		map.put("boards", list);
