@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class Board2Service {
-	
+
 	@Resource
 	private Board2Dao board2Dao;
 //	
@@ -48,23 +48,15 @@ public class Board2Service {
 //		log.info("실행");
 //		board2Dao.deleteByBno(bno);
 //	}
-	
-	public void writeBoard(Board2 board) {
-	  log.info("실행");
-	  
+
+	public int writeBoard(Board2 board) {
+		log.info("실행");
+		return board2Dao.insert(board);
 	}
 
-  public void updateBoard(Board2 board) {
-    log.info("실행");
-    board2Dao.update(board);
-  }
+	public void updateBoard(Board2 board) {
+		log.info("실행");
+		board2Dao.update(board);
+	}
 
 }
-
-
-
-
-
-
-
-

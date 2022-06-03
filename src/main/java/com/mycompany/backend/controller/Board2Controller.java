@@ -38,34 +38,36 @@ public class Board2Controller {
 	ImageService imageService;
 
 	@PostMapping("/")
-	public Board2 create(@RequestBody Board2 board, MultipartFile[] imagesArray) {
+	public Board2 create(Board2 board, MultipartFile[] imagesArray) {
 		log.info("실행");
 		if (imagesArray != null) {
 			log.info("imagesArray에 값이 넘어왔다~~~~");
 		}
+		log.info(imagesArray.length);
+		log.info(board);
 		// 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
-		board2Service.writeBoard(board);
-
+		int dbbno = board2Service.writeBoard(board);
+		log.info(dbbno);
 		// 최대 3개까지 사진 저장.
 		for (int i = 0; i < imagesArray.length; i++) {
 			Image image = new Image();
 			MultipartFile mf = imagesArray[i];
+			image.setBno(dbbno);
 			image.setImgoname(mf.getOriginalFilename());
-			image.setImgoname(new Date().getTime() + "-" + mf.getOriginalFilename());
+			image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
 			image.setImgtype(mf.getContentType());
 			try {
-				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+				File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
 				mf.transferTo(file);
 			} catch (Exception e) {
 				log.error(e.getMessage());
 			}
 			imageService.appendImage(image);
-
 		}
 		// 저장한 게시물정보 가져오기.(게시물+사진 각각 가져와서 전송해야 함.)
 //    Board2 dbBoard = board2Service.getBoard(board.getBno(), false);
 		Board2 dbBoard = null;//////////
-		return dbBoard;
+		return board;
 	}
 
 	@PutMapping("/")
