@@ -3,6 +3,7 @@ package com.mycompany.backend.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -81,7 +82,8 @@ public class Board2Controller {
 			image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
 			image.setImgtype(mf.getContentType());
 			try {
-				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+				File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
+//				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
 				mf.transferTo(file);
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -112,7 +114,8 @@ public class Board2Controller {
 			image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
 			image.setImgtype(mf.getContentType());
 			try {
-				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+				File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
+//				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
 				mf.transferTo(file);
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -153,7 +156,35 @@ public class Board2Controller {
 
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageoname + "\";")
-				.header(HttpHeaders.CONTENT_TYPE, image.getImgtype()).body(resource);
+				.header(HttpHeaders.CONTENT_TYPE, image.getImgtype())
+				.body(resource);
+	}
+	
+	// 이미지 리스트 가져오는 메소드
+	@GetMapping("/imagelist/{bno}")
+	public List<InputStreamResource> downloadList(@PathVariable int bno) throws Exception {
+		List<InputStreamResource> returnData = new ArrayList<>();
+		List<Image> image = imageService.getImages(bno);
+		
+		for(int i=0; i<image.size(); i++) {
+			String imageoname = image.get(i).getImgoname();
+			
+			imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
+
+			FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.get(i).getImgsname());
+			InputStreamResource resource = new InputStreamResource(fis);
+			log.info(resource);
+			returnData.add(resource);
+		}
+		log.info(returnData);
+		return returnData;
+	}
+	
+	@GetMapping("/imagelists/{bno}")
+	public List<Image> downloadLists(@PathVariable int bno) throws Exception {
+		List<Image> image = imageService.getImages(bno);
+		log.info(image.get(0).getImgoname());
+		return image;
 	}
 
 	@DeleteMapping("/{bno}")
