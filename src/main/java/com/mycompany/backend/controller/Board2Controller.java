@@ -20,15 +20,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mycompany.backend.dto.Board2;
 import com.mycompany.backend.dto.Image;
+import com.mycompany.backend.dto.Pager;
 import com.mycompany.backend.service.Board2Service;
 import com.mycompany.backend.service.ImageService;
 
@@ -47,11 +46,27 @@ public class Board2Controller {
 	public Board2 read(@PathVariable int bno, @RequestParam(defaultValue = "false") boolean hit) {
 		return board2Service.getBoard(bno, hit);
 	}
+	
+	@GetMapping("/list")
+	public Map<String, Object> list(@RequestParam(defaultValue="1") int pageNo) {
+		log.info("실행");
+		int totalRows = board2Service.getTotalBoardNum();
+		Pager pager = new Pager(12, 10, totalRows, pageNo);
+		List<Board2> list = board2Service.getBoards(pager);
+		Map<String, Object> map = new HashMap<>();
+		map.put("boards", list);
+		map.put("pager", pager);
+		return map;
+	}
 
 	@PostMapping("/")
 //public Board2 create(Board2 board, MultipartHttpServletRequest mtfRequest) {
-	public Board2 create(Board2 board, MultipartFile[] imagesArray) {
+//public Board2 create(Board2 board, MultipartFile[] imagesArray) {
+  public Board2 create(Board2 board) {
 		log.info("실행");
+		log.info("~~~~~~~~~~~~~~~~~~board : " + board);
+		MultipartFile[] imagesArray = board.getImagesArray();
+		log.info("~~~~~~~~~~~~~~~~~~imagesArray : " + imagesArray);
 // 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
 		board2Service.writeBoard(board);
 		int bno = board2Service.selectBno();

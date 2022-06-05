@@ -14,4 +14,5 @@ public class Board2 {
 	private String mid;
 	private int bhitcount;
 	private Date bdate;
+	private MultipartFile[] imagesArray;
 }
