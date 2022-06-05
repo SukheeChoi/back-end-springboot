@@ -21,7 +21,7 @@
 	</select>
 
 	<select id="selectByBno" resultType="board2" parameterType="int">
-		SELECT bno, btitle, bdate, mid, bhitcount
+		SELECT bno, btitle, bmemo, bdate, mid, bhitcount
 		FROM board2
 		WHERE bno=#{bno}
 	</select>

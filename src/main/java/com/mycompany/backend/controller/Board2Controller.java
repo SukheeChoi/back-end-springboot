@@ -162,7 +162,8 @@ public class Board2Controller {
 
 		imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
 
-		FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.getImgsname());
+		FileInputStream fis = new FileInputStream("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+//		FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.getImgsname());
 		InputStreamResource resource = new InputStreamResource(fis);
 
 		return ResponseEntity.ok()
