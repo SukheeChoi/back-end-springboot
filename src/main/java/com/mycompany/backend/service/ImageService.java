@@ -26,9 +26,9 @@ public class ImageService {
 		return imageDao.selectByIno(ino);
 	}
 
-	public void appendImage(Image image) {
+	public int appendImage(Image image) {
 		log.info("실행");
-		imageDao.insert(image);
+		return imageDao.insert(image);
 	}
 
 	public int deleteImageByBno(int bno) {
