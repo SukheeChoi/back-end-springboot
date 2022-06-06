@@ -111,7 +111,7 @@ public class Board2Controller {
 			}
 		}
 		Map<String, String> response = new HashMap<>();
-		if(boardResult + imageResult > 2) {
+		if(boardResult + imageResult >= 2) {
 		  response.put("result", "success");
 		  response.put("bno", String.valueOf(bno));
 		} else {
@@ -188,9 +188,13 @@ public class Board2Controller {
 
 		imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
 
-		FileInputStream fis = new FileInputStream("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
-//		FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.getImgsname());
-		InputStreamResource resource = new InputStreamResource(fis);
+//		FileInputStream fis = new FileInputStream("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+		File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
+		InputStreamResource resource = null;
+		if(file.exists()) {
+			FileInputStream fis = new FileInputStream(file);
+			resource = new InputStreamResource(fis);
+		}
 
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageoname + "\";")
@@ -208,9 +212,13 @@ public class Board2Controller {
 			String imageoname = image.get(i).getImgoname();
 			
 			imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
+			File file = new File("C:/Temp/uploadfiles/" + image.get(i).getImgsname());
+			InputStreamResource resource = null;
+			if(file.exists()) {
+				FileInputStream fis = new FileInputStream(file);
+				resource = new InputStreamResource(fis);
+			}
 
-			FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.get(i).getImgsname());
-			InputStreamResource resource = new InputStreamResource(fis);
 			log.info(resource);
 			returnData.add(resource);
 		}
