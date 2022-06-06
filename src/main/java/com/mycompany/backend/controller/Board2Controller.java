@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,13 +64,13 @@ public class Board2Controller {
 	@PostMapping("/")
 //public Board2 create(Board2 board, MultipartHttpServletRequest mtfRequest) {
 //public Board2 create(Board2 board, MultipartFile[] imagesArray) {
-  public Board2 create(Board2 board) {
+  public Map<String, String> create(Board2 board) {
 		log.info("실행");
 		log.info("~~~~~~~~~~~~~~~~~~board : " + board);
 		MultipartFile[] imagesArray = board.getImagesArray();
 		log.info("~~~~~~~~~~~~~~~~~~imagesArray : " + imagesArray);
 // 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
-		board2Service.writeBoard(board);
+		int boardResult = board2Service.writeBoard(board);
 		int bno = board2Service.selectBno();
 		log.info("bno : " + bno);
 //List<MultipartFile> imagesArray = mtfRequest.getFiles("File");
@@ -89,6 +91,7 @@ public class Board2Controller {
 //}
 
 // 최대 3개까지 사진 저장.
+		int imageResult = 0;
 		for (int i = 0; i < imagesArray.length; i++) {
 			MultipartFile mf = imagesArray[i];
 			Image image = new Image();
@@ -103,46 +106,65 @@ public class Board2Controller {
 			} catch (Exception e) {
 				log.error(e.getMessage());
 			}
-			imageService.appendImage(image);
+			if(imageService.appendImage(image) == 1) {
+			  imageResult++;
+			}
 		}
-// 저장한 게시물정보 가져오기.(게시물+사진 각각 가져와서 전송해야 함.)
-//Board2 dbBoard = board2Service.getBoard(board.getBno(), false);
-		Board2 dbBoard = null;//////////
-		return board;
+		Map<String, String> response = new HashMap<>();
+		if(boardResult + imageResult > 2) {
+		  response.put("result", "success");
+		  response.put("bno", String.valueOf(bno));
+		} else {
+		  response.put("result", "fail");		  
+		}
+		// 게시글 등록 성공시, Vue에서 bno를 이용해서 라우터로 작성한 게시글에 대한 상세보기 페이지로 이동.
+		return response;
 	}
 
 	@PutMapping("/")
-	public Board2 update(Board2 board, MultipartFile[] imagesArray) {
+//	  public Board2 update(MultipartHttpServletRequest request) throws Exception {
+//	  public Board2 update(HttpServletRequest request) throws Exception {
+	  public Map<String, String> update(@RequestPart Board2 board, @RequestPart(required = false) MultipartFile[] imagesArray) {
+//	  public Board2 update(@RequestPart Board2 board, @RequestPart MultipartFile[] imagesArray, @RequestPart String[] deleteInoList) {
+//	  public Board2 update(Board2 board, String[] deleteInoList) {
 		log.info("실행");
-
+		log.info("board : " + board);
+			
 		// 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
 		board2Service.updateBoard(board);
 
-		// 저장된 사진 최대 3개를 모두 삭제.
-		imageService.deleteImageByBno(board.getBno());
-		// 최대 3개까지 사진 저장.
-		for (int i = 0; i < imagesArray.length; i++) {
-			MultipartFile mf = imagesArray[i];
-			Image image = new Image();
-			image.setBno(board.getBno());
-			image.setImgoname(mf.getOriginalFilename());
-			image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
-			image.setImgtype(mf.getContentType());
-			try {
-				File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
-//				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
-				mf.transferTo(file);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-			imageService.appendImage(image);
+		// 기존에 첨부된 사진을 삭제해야 하는 경우에만 아래 로직을 실행.
+		if(board.getDeleteInoList() != null) {
+		String[] deleteInoList = board.getDeleteInoList();
+		  for(String strIno : deleteInoList) {
+		    imageService.deleteImageByIno(Integer.parseInt(strIno));		    
+		  }
 		}
 
-//  Board2 dbBoard = board2Service.getBoard(board.getBno(), false);
-		Board2 dbBoard = null;
-		return dbBoard;
+		// 새로 첨부된 사진이 있는 경우에만 아래 로직을 실행.
+		if(imagesArray != null) {
+		  for (int i = 0; i < imagesArray.length; i++) {
+		    MultipartFile multipartFile = imagesArray[i];
+		    Image image = new Image();
+		    image.setBno(board.getBno());
+		    image.setImgoname(multipartFile.getOriginalFilename());
+		    image.setImgsname(new Date().getTime() + "-" + multipartFile.getOriginalFilename());
+		    image.setImgtype(multipartFile.getContentType());
+		    try {
+//		    	File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
+		      File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+		      multipartFile.transferTo(file);
+		    } catch (Exception e) {
+		      log.error(e.getMessage());
+		    }
+		    imageService.appendImage(image);
+		  }
+		}
+		Map<String, String> response = new HashMap<>();
+		response.put("result", "success");
+    return response;
 	}
-
+	
 	// 이미지 전체 이름만 준다고 생각
 	@GetMapping("/images/{bno}")
 	public ResponseEntity<Object> getImages(@PathVariable int bno) {
@@ -166,7 +188,8 @@ public class Board2Controller {
 
 		imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
 
-		FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.getImgsname());
+		FileInputStream fis = new FileInputStream("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+//		FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.getImgsname());
 		InputStreamResource resource = new InputStreamResource(fis);
 
 		return ResponseEntity.ok()

@@ -15,4 +15,5 @@ public class Board2 {
 	private int bhitcount;
 	private Date bdate;
 	private MultipartFile[] imagesArray;
+	private String[] deleteInoList;
 }
