@@ -50,11 +50,23 @@ public class Board2Controller {
 	}
 	
 	@GetMapping("/list")
-	public Map<String, Object> list(@RequestParam(defaultValue="1") int pageNo) {
+	public Map<String, Object> list(@RequestParam(defaultValue="1") int pageNo
+	    , @RequestParam(required = false) String mid) {
 		log.info("실행");
-		int totalRows = board2Service.getTotalBoardNum();
-		Pager pager = new Pager(12, 10, totalRows, pageNo);
-		List<Board2> list = board2Service.getBoards(pager);
+		int totalRows = 0;
+		Pager pager = new Pager();
+		List<Board2> list = new ArrayList<>();
+		if(mid == null || mid.isEmpty() || mid.equals("")) {//목록
+		  log.info("목록");
+		  pager = new Pager(12, 10, totalRows, pageNo);
+		  list = board2Service.getBoards(pager);
+		} else {//마이페이지
+		  log.info("마이페이지");
+		  totalRows = board2Service.getTotalBoardNumByMid(mid);
+		  pager = new Pager(12, 10, totalRows, pageNo);
+		  list = board2Service.getBoardsByMid(pager, mid);
+		}
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("boards", list);
 		map.put("pager", pager);
@@ -188,8 +200,8 @@ public class Board2Controller {
 
 		imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
 
-//		File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.get(i).getImgsname());
-		File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
+		File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+//		File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
 		InputStreamResource resource = null;
 		if(file.exists()) {
 			FileInputStream fis = new FileInputStream(file);
@@ -212,8 +224,8 @@ public class Board2Controller {
 			String imageoname = image.get(i).getImgoname();
 			
 			imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
-			File file = new File("C:/Temp/uploadfiles/" + image.get(i).getImgsname());
-//			File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.get(i).getImgsname());
+//			File file = new File("C:/Temp/uploadfiles/" + image.get(i).getImgsname());
+			File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.get(i).getImgsname());
 			InputStreamResource resource = null;
 			if(file.exists()) {
 				FileInputStream fis = new FileInputStream(file);

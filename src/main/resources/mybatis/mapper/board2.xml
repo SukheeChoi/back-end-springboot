@@ -15,9 +15,27 @@
 		)
 		WHERE rnum &gt;= #{startRowNo}
 	</select>
+	<select id="selectByPageNMid" resultType="board2">
+		SELECT rnum, bno, btitle, bdate, bmemo
+		FROM (
+			SELECT ROWNUM as rnum, bno, btitle, bdate, bmemo
+			FROM (
+				SELECT bno, btitle, bdate, (select MIN(ino) from images A where A.bno = B.bno ) as bmemo
+				FROM board2 B
+				WHERE mid=#{mid}
+				ORDER BY bno DESC
+		)
+		WHERE rownum &lt;= #{pager.endRowNo}
+		)
+		WHERE rnum &gt;= #{pager.startRowNo}
+	</select>
 	
 	<select id="count" resultType="int">
 		SELECT count(*) FROM board2
+	</select>
+	<select id="countByMid" resultType="int" parameterType="string">
+		SELECT count(*) FROM board2
+		WHERE mid=#{mid}
 	</select>
 
 	<select id="selectByBno" resultType="board2" parameterType="int">

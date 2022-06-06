@@ -23,6 +23,10 @@ public class Board2Service {
 		log.info("실행");
 		return board2Dao.selectByPage(pager);
 	}
+  public List<Board2> getBoardsByMid(Pager pager, String mid) {
+    log.info("실행");
+    return board2Dao.selectByPageNMid(pager, mid);
+  }
 //	
 //	public Board getBoard(int bno, boolean hit) {
 //		log.info("실행");
@@ -36,6 +40,11 @@ public class Board2Service {
 		log.info("실행");
 		return board2Dao.count();
 	}
+	
+  public int getTotalBoardNumByMid(String mid) {
+    log.info("실행");
+    return board2Dao.countByMid(mid);
+  }
 //	
 //	public void writeBoard(Board board) {
 //		log.info("실행");

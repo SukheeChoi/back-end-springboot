@@ -1,7 +1,8 @@
 package com.mycompany.backend.dto;
 
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
 @Data
 public class Pager {
 	private int totalRows;		//전체 행수
