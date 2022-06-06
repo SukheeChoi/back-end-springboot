@@ -100,8 +100,8 @@ public class Board2Controller {
 			image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
 			image.setImgtype(mf.getContentType());
 			try {
-				File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
-//				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+//				File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
+				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
 				mf.transferTo(file);
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -111,7 +111,7 @@ public class Board2Controller {
 			}
 		}
 		Map<String, String> response = new HashMap<>();
-		if(boardResult + imageResult > 2) {
+		if(boardResult + imageResult >= 2) {
 		  response.put("result", "success");
 		  response.put("bno", String.valueOf(bno));
 		} else {
@@ -209,7 +209,8 @@ public class Board2Controller {
 			
 			imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
 
-			FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.get(i).getImgsname());
+		  FileInputStream fis = new FileInputStream("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.get(i).getImgsname());
+//			FileInputStream fis = new FileInputStream("C:/Temp/uploadfiles/" + image.get(i).getImgsname());
 			InputStreamResource resource = new InputStreamResource(fis);
 			log.info(resource);
 			returnData.add(resource);
