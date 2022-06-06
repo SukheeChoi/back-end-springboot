@@ -204,6 +204,7 @@ public class MemberController {
               .body("success");
   }
   
+  
   @GetMapping("/{mid}")
   public Member read(@PathVariable String mid) {
       return memberService.getMember(mid);
