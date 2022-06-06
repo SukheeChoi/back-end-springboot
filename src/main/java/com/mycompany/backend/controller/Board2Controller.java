@@ -214,7 +214,7 @@ public class Board2Controller {
 
 		// 삭제 결과 응답하기.
 		Map<String, String> map = new HashMap<>();
-		if (boardResult + imgResult == 2) {
+		if (boardResult + imgResult >= 2) {
 			map.put("result", "success");
 		} else {
 			map.put("result", "fail");
