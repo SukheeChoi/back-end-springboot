@@ -111,7 +111,7 @@ public class Board2Controller {
 	@PutMapping("/")
 //	  public Board2 update(MultipartHttpServletRequest request) throws Exception {
 //	  public Board2 update(HttpServletRequest request) throws Exception {
-	  public Board2 update(@RequestPart Board2 board, @RequestPart MultipartFile[] imagesArray) {
+	  public Map<String, String> update(@RequestPart Board2 board, @RequestPart MultipartFile[] imagesArray) {
 //	  public Board2 update(@RequestPart Board2 board, @RequestPart MultipartFile[] imagesArray, @RequestPart String[] deleteInoList) {
 //	  public Board2 update(Board2 board, String[] deleteInoList) {
 		log.info("실행");
@@ -152,8 +152,9 @@ public class Board2Controller {
 		    imageService.appendImage(image);
 		  }
 		}
-
-    return board2Service.getBoard(board.getBno(), false);
+		Map<String, String> response = new HashMap<>();
+		response.put("result", "success");
+    return response;
 	}
 
 	// 이미지 전체 이름만 준다고 생각
