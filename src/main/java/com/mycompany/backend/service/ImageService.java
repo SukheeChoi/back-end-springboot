@@ -35,4 +35,9 @@ public class ImageService {
 		log.info("실행");
 		return imageDao.deleteByBno(bno);
 	}
+
+  public int deleteImageByIno(int ino) {
+    log.info("실행");
+    return imageDao.deleteByIno(ino);    
+  }
 }

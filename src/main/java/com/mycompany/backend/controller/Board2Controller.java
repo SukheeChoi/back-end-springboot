@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -107,29 +109,48 @@ public class Board2Controller {
 	}
 
 	@PutMapping("/")
-	public Board2 update(Board2 board, MultipartFile[] imagesArray) {
+//	  public Board2 update(MultipartHttpServletRequest request) throws Exception {
+//	  public Board2 update(HttpServletRequest request) throws Exception {
+	  public Board2 update(@RequestPart Board2 board, @RequestPart MultipartFile[] imagesArray) {
+//	  public Board2 update(@RequestPart Board2 board, @RequestPart MultipartFile[] imagesArray, @RequestPart String[] deleteInoList) {
+//	  public Board2 update(Board2 board, String[] deleteInoList) {
 		log.info("실행");
-
+		log.info("board : " + board);
+		log.info("imagesArray[0] : " + imagesArray[0]);
+		MultipartFile mf = imagesArray[0];
+		log.info("mf.getOriginalFilename() : " + mf.getOriginalFilename());
+		log.info("board.getDeleteInoList() : " + board.getDeleteInoList());
+		log.info("board.getDeleteInoList().length : " + board.getDeleteInoList().length);
+		log.info("board.getDeleteInoList().getClass().getSimpleName() : " + board.getDeleteInoList().getClass().getSimpleName());
+			
 		// 사진을 제외한 게시물의 내용(제목, 메모, 작성자, 생성일, 조회수) 저장.
 		board2Service.updateBoard(board);
+		
+		// 기존에 첨부된 사진을 삭제해야 하는 경우에만 아래 로직을 실행.
+		if(board.getDeleteInoList() != null && board.getDeleteInoList().length != 0) {
+		String[] deleteInoList = board.getDeleteInoList();
+		  for(String strIno : deleteInoList) {
+		    imageService.deleteImageByIno(Integer.parseInt(strIno));		    
+		  }
+		}
 
-		// 저장된 사진 최대 3개를 모두 삭제.
-		imageService.deleteImageByBno(board.getBno());
-		// 최대 3개까지 사진 저장.
-		for (int i = 0; i < imagesArray.length; i++) {
-			MultipartFile mf = imagesArray[i];
-			Image image = new Image();
-			image.setBno(board.getBno());
-			image.setImgoname(mf.getOriginalFilename());
-			image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
-			image.setImgtype(mf.getContentType());
-			try {
-				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
-				mf.transferTo(file);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-			imageService.appendImage(image);
+		// 새로 첨부된 사진이 있는 경우에만 아래 로직을 실행.
+		if(imagesArray != null && imagesArray.length != 0) {
+		  for (int i = 0; i < imagesArray.length; i++) {
+		    MultipartFile multipartFile = imagesArray[i];
+		    Image image = new Image();
+		    image.setBno(board.getBno());
+		    image.setImgoname(multipartFile.getOriginalFilename());
+		    image.setImgsname(new Date().getTime() + "-" + multipartFile.getOriginalFilename());
+		    image.setImgtype(multipartFile.getContentType());
+		    try {
+		      File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+		      multipartFile.transferTo(file);
+		    } catch (Exception e) {
+		      log.error(e.getMessage());
+		    }
+		    imageService.appendImage(image);
+		  }
 		}
 
     return board2Service.getBoard(board.getBno(), false);
