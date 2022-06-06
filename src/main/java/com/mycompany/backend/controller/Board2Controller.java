@@ -100,8 +100,8 @@ public class Board2Controller {
 			image.setImgsname(new Date().getTime() + "-" + mf.getOriginalFilename());
 			image.setImgtype(mf.getContentType());
 			try {
-				File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
-//				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+//				File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
+				File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
 				mf.transferTo(file);
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -188,7 +188,7 @@ public class Board2Controller {
 
 		imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
 
-//		FileInputStream fis = new FileInputStream("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.getImgsname());
+//		File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.get(i).getImgsname());
 		File file = new File("C:/Temp/uploadfiles/" + image.getImgsname());
 		InputStreamResource resource = null;
 		if(file.exists()) {
@@ -213,12 +213,12 @@ public class Board2Controller {
 			
 			imageoname = new String(imageoname.getBytes("UTF-8"), "ISO-8859-1");
 			File file = new File("C:/Temp/uploadfiles/" + image.get(i).getImgsname());
+//			File file = new File("/Users/choisukhee/Osstem/temp/uploadfiles/" + image.get(i).getImgsname());
 			InputStreamResource resource = null;
 			if(file.exists()) {
 				FileInputStream fis = new FileInputStream(file);
 				resource = new InputStreamResource(fis);
 			}
-
 			log.info(resource);
 			returnData.add(resource);
 		}

@@ -18,7 +18,7 @@ public class Jwt {
   
   // AccessToken 생성
   public static String createAccessToken(String mid, String authority) {
-    log.info("실행");
+    log.info("실행222222222222222");
     String accessToken = null;
     
     try {
@@ -37,7 +37,7 @@ public class Jwt {
     } catch(Exception e) {
       log.error(e.getMessage());
     }
-    
+    log.info("실행 accessToken : " + accessToken);
     return accessToken;
   }
   
