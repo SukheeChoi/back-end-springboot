@@ -58,6 +58,7 @@ public class Board2Controller {
 		List<Board2> list = new ArrayList<>();
 		if(mid == null || mid.isEmpty() || mid.equals("")) {//목록
 		  log.info("목록");
+		  totalRows = board2Service.getTotalBoardNum();
 		  pager = new Pager(12, 10, totalRows, pageNo);
 		  list = board2Service.getBoards(pager);
 		} else {//마이페이지
@@ -65,6 +66,7 @@ public class Board2Controller {
 		  totalRows = board2Service.getTotalBoardNumByMid(mid);
 		  pager = new Pager(12, 10, totalRows, pageNo);
 		  list = board2Service.getBoardsByMid(pager, mid);
+		  log.info("마이페이지 list : " + list);
 		}
 		
 		Map<String, Object> map = new HashMap<>();
